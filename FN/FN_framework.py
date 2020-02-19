@@ -89,7 +89,7 @@ class Trainer():
 
     @property
     def trainer_name(self):
-        class_name = self.__class__.name
+        class_name = self.__class__.__name__
         snaked = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', class_name)
         snaked = re.sub('([a-z0-9])([A-Z])', r'\1_\2', snaked).lower()
         snaked = snaked.replace('_trainer', '')
