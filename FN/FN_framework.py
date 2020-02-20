@@ -34,7 +34,7 @@ class FNAgent():
     def initialize(self, experiences):
         raise NotImplementedError("Errro")
 
-    def estimzte(self, s):
+    def estimate(self, s):
         raise NotImplementedError("")
 
     def update(self, experiences, gamma):
@@ -127,7 +127,7 @@ class Trainer():
                 if not self.training and len(
                         self.experiences) == self.buffer_size:
                     self.begin_train(i, agent)
-                    self.trainig = True
+                    self.training = True
 
                 self.step(i, step_count, agent, e)
 

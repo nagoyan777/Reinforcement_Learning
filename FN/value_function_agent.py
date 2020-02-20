@@ -109,8 +109,8 @@ def main(play):
         agent.play(env)
     else:
         trained = trainer.train(env)
-        trainer.logeger.plot("Rewards", trainer.reward_log,
-                             trainer.report_interveal)
+        trainer.logger.plot("Rewards", trainer.reward_log,
+                            trainer.report_interval)
         trained.save(path)
 
 
