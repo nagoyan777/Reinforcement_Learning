@@ -117,7 +117,8 @@ class Trainer():
                 if render:
                     env.render()
                 if self.training and observe_interval > 0 and \
-                    (self.training_count==1 or self.training_count % observe_interval==0):
+                        (self.training_count == 1 or
+                            self.training_count % observe_interval == 0):
                     frames.append(s)
                 a = agent.policy(s)
                 n_state, reward, done, info = env.step(a)
@@ -135,7 +136,8 @@ class Trainer():
             else:
                 self.episode_end(i, step_count, agent)
 
-                if not self.training and initial_count > 0 and i >= initial_count:
+                if not self.training and initial_count > 0 \
+                        and i >= initial_count:
                     self.begin_train(i, agent)
                     self.training = True
 

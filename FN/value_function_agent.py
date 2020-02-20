@@ -60,9 +60,9 @@ class ValueFunctionAgent(FNAgent):
                 reward += gamma * np.max(future[i])
             estimateds[i][e.a] = reward
 
-            estimateds = np.array(estimateds)
-            states = self.model.named_steps["scaler"].transform(states)
-            self.model.named_steps["estimator"].partial_fit(states, estimateds)
+        estimateds = np.array(estimateds)
+        states = self.model.named_steps["scaler"].transform(states)
+        self.model.named_steps["estimator"].partial_fit(states, estimateds)
 
 
 class CartPoleObserver(Observer):
