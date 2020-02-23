@@ -50,4 +50,5 @@ class ELAgent():
                      f"o-",
                      color="g",
                      label="Rewards for each {interval} episode")
+            plt.legend(loc="best")
             plt.show()
