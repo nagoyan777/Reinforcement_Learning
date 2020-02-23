@@ -7,7 +7,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.externals import joblib
 import gym
 
-from FN_framework import FNAgent, Trainer, Observer
+from fn_framework import FNAgent, Trainer, Observer
 
 
 class ValueFunctionAgent(FNAgent):
