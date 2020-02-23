@@ -13,7 +13,10 @@ class ELAgent():
         if np.random.random() < self.epsilon:
             return np.random.randint(len(actions))
         else:
-            return np.random.randint(len(actions))
+            if s in self.Q and sum(self.Q[s]) != 0:
+                return np.argmax(self.Q[s])
+            else:
+                return np.random.randint(len(actions))
 
     def init_log(self):
         self.reward_log = []
@@ -21,7 +24,7 @@ class ELAgent():
     def log(self, reward):
         self.reward_log.append(reward)
 
-    def show_reward_log(self, interval=0, episode=-1):
+    def show_reward_log(self, interval=50, episode=-1):
         if episode > 0:
             rewards = self.reward_log[-interval:]
             mean = np.round(np.mean(rewards), 3)
@@ -49,6 +52,6 @@ class ELAgent():
                      means,
                      f"o-",
                      color="g",
-                     label="Rewards for each {interval} episode")
+                     label=f"Rewards for each {interval} episode")
             plt.legend(loc="best")
             plt.show()

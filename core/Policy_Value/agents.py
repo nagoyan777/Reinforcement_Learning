@@ -9,9 +9,9 @@ class EpsilonGreedyAgent():
         self.V = []
 
     def policy(self):
-        coins = range(len(self.V))
+        actions = range(len(self.V))
         if random.random() < self.epsilon:
-            return random.choice(coins)
+            return random.choice(actions)
         else:
             return np.argmax(self.V)
 
@@ -24,13 +24,13 @@ class EpsilonGreedyAgent():
         done = False
         rewards = []
         while not done:
-            selected_coin = self.policy()
-            reward, done = env.step(selected_coin)
+            action = self.policy()
+            reward, done = env.step(action)
             rewards.append(reward)
 
-            n = N[selected_coin]
-            coin_average = self.V[selected_coin]
-            new_average = (coin_average * n + reward) / (n + 1)
-            N[selected_coin] += 1
-            self.V[selected_coin] = new_average
+            n = N[action]
+            average = self.V[action]
+            new_average = (average * n + reward) / (n + 1)
+            N[action] += 1
+            self.V[action] = new_average
         return rewards

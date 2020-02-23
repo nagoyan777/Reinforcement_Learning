@@ -11,7 +11,7 @@ register(id='FrozenLakeEasy-v0',
 
 def show_q_value(Q):
     env = gym.make("FrozenLake-v0")
-    nrow = nev.unwrapped.nrow
+    nrow = env.unwrapped.nrow
     ncol = env.unwrapped.ncol
     state_size = 3
     q_nrow = nrow * state_size
@@ -20,7 +20,7 @@ def show_q_value(Q):
 
     for r in range(nrow):
         for c in range(ncol):
-            s = r * nrow + C
+            s = r * nrow + c
             state_exist = False
             if isinstance(Q, dict) and s in Q:
                 state_exist = True
@@ -39,7 +39,7 @@ def show_q_value(Q):
     fig = plt.figure()
     ax = fig.add_subplot(1, 1, 1)
     plt.imshow(reward_map,
-               cmap=cm.RdY1Gn,
+               cmap=cm.RdYlGn,
                interpolation="bilinear",
                vmax=abs(reward_map).max(),
                vmin=-abs(reward_map).max())
