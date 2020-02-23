@@ -51,6 +51,7 @@ class DeepQNetworkAgent(FNAgent):
         model.add(K.layers.Flatten())
         model.add(
             K.layers.Dense(256, kernel_initializer=normal, activation="relu"))
+        model.add(K.layers.Dense(len(self.actions), kernel_initializer=normal))
         self.model = model
         self._teacher_model = K.models.clone_model(self.model)
 
@@ -81,7 +82,7 @@ class DeepQNetworkAgentTest(DeepQNetworkAgent):
         super().__init__(epsilon, actions)
 
     def make_model(self, feature_shape):
-        normal = K.initializers.glorot_norma()
+        normal = K.initializers.glorot_normal()
         model = K.Sequential()
         model.add(
             K.layers.Dense(64,
@@ -142,6 +143,7 @@ class DeepQNetworkTrainer(Trainer):
         self.teacher_update_freq = teacher_update_freq
         self.loss = 0
         self.training_episode = 0
+        self._max_reward = -10
 
     def train(self,
               env,
@@ -154,9 +156,10 @@ class DeepQNetworkTrainer(Trainer):
             agent = DeepQNetworkAgent(1.0, actions)
         else:
             agent = DeepQNetworkAgentTest(1.0, actions)
+        observe_interval = 0
         self.training_episode = episode_count
-
-        self.train_loop(env, agent, episode_count, initial_count, render)
+        self.train_loop(env, agent, episode_count, initial_count, render,
+                        observe_interval)
         agent.save(self.logger.path_of(self.file_name))
 
         return agent
@@ -184,8 +187,10 @@ class DeepQNetworkTrainer(Trainer):
             self.logger.write(self.training_count, "loss", self.loss)
             self.logger.write(self.training_count, "reward", reward)
             self.logger.write(self.training_count, "epsilon", agent.epsilon)
-            if self.is_event(self.training_count, self.report_interval):
-                agent.save(self.logger.path_of(self.filen_name))
+            #            if self.is_event(self.training_count, self.report_interval):
+            if reward > self._max_reward:
+                agent.save(self.logger.path_of(self.file_name))
+                self._max_reward = reward
             if self.is_event(self.training_count, self.teacher_update_freq):
                 agent.update_teacher()
             diff = (self.initial_epsilon - self.final_epsilon)
@@ -206,7 +211,7 @@ def main(play, is_test):
     if is_test:
         print("Train of test mode")
         obs = gym.make("CartPole-v0")
-        trainer.learning_rate = 1e-4
+        agent_class = DeepQNetworkAgentTest
     else:
         env = gym.make("Catcher-v0")
         obs = CatcherObserver(env, 80, 80, 4)
