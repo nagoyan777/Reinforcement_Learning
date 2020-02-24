@@ -6,7 +6,7 @@ import tensorflow as tf
 from tensorflow.python import keras as K
 from PIL import Image
 import gym
-import gym_ple
+# import gym_ple
 from fn_framework import FNAgent, Trainer, Observer
 
 tf.compat.v1.disable_eager_execution()
@@ -15,7 +15,7 @@ tf.compat.v1.disable_eager_execution()
 class ActorCriticAgent(FNAgent):
     def __init__(self, actions):
         # ActorCriticAgent uses self policy (doesn't use epsilon)
-        super().__init__(epsilon=0.0, ations=actions)
+        super().__init__(epsilon=0.0, actions=actions)
         self.updater = None
 
     @classmethod
