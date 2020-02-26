@@ -41,7 +41,7 @@ class CoinToss():
             done = True if self.toss_count == final else False
 
         if action >= len(self.head_probs):
-            raise Exception(f"The No.{action} coin does'nt exest.")
+            raise Exception(f'The No.{action} coin does not exest.')
         else:
             head_prob = self.head_probs[action]
             if random.random() < head_prob:
