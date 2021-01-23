@@ -4,3 +4,4 @@ __pycache__/
 *.MacBookPro*
 *~
 .DS_Store
+*.h5
